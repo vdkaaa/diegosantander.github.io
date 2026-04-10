@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Diego Santander — XR Developer · Unity/C# · IEEE Published</title>
 <meta name="description" content="AR/VR programmer specializing in immersive training simulators, Unity/C#, Meta Quest deployment. IEEE published researcher.">
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -249,7 +249,6 @@ section { padding: 100px 0; }
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: 16px;
-  padding: 48px;
   margin-bottom: 32px;
   position: relative;
   overflow: hidden;
@@ -264,6 +263,57 @@ section { padding: 100px 0; }
   width: 300px; height: 300px;
   background: radial-gradient(circle, var(--accent-dim) 0%, transparent 70%);
   pointer-events: none;
+}
+
+/* ── Flagship image gallery ── */
+.flagship-gallery {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  border-bottom: 1px solid var(--border);
+}
+.flagship-gallery .gallery-hero {
+  grid-column: 1 / -1;
+  overflow: hidden;
+  max-height: 380px;
+}
+.flagship-gallery img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.6s ease;
+}
+.flagship-gallery .gallery-item {
+  overflow: hidden;
+  max-height: 220px;
+  border-top: 1px solid var(--border);
+}
+.flagship-gallery .gallery-item:first-of-type {
+  border-right: 1px solid var(--border);
+}
+.flagship-gallery img:hover {
+  transform: scale(1.03);
+}
+.flagship-gallery .gallery-caption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 8px 16px;
+  background: linear-gradient(transparent, #0f1117dd);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-muted);
+}
+.flagship-gallery .gallery-item,
+.flagship-gallery .gallery-hero {
+  position: relative;
+}
+
+.flagship-body {
+  padding: 40px 48px 48px;
+  position: relative;
 }
 
 .flagship-badge {
@@ -331,9 +381,60 @@ section { padding: 100px 0; }
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: 12px;
-  padding: 32px;
+  overflow: hidden;
   transition: all 0.3s;
   position: relative;
+}
+.project-card .card-body { padding: 32px; }
+
+/* Project card image */
+.project-card .card-img {
+  width: 100%;
+  height: 180px;
+  overflow: hidden;
+  border-bottom: 1px solid var(--border);
+  position: relative;
+}
+.project-card .card-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s ease;
+}
+.project-card:hover .card-img img { transform: scale(1.05); }
+
+/* Placeholder for missing images */
+.project-card .card-img-placeholder {
+  width: 100%;
+  height: 180px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: var(--surface);
+  position: relative;
+}
+.card-img-placeholder::before {
+  content: '';
+  position: absolute;
+  inset: 12px;
+  border: 2px dashed var(--border-accent);
+  border-radius: 8px;
+  pointer-events: none;
+}
+.card-img-placeholder .ph-icon {
+  width: 32px;
+  height: 32px;
+  opacity: 0.25;
+}
+.card-img-placeholder span {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-muted);
+  letter-spacing: 1px;
 }
 .project-card:hover {
   border-color: var(--border-accent);
@@ -474,7 +575,10 @@ footer {
   nav ul a { font-size: 11px; letter-spacing: 1px; }
   .hero { padding-top: 100px; min-height: auto; padding-bottom: 60px; }
   .hero-stats { gap: 24px; }
-  .flagship { padding: 28px; }
+  .flagship-body { padding: 24px 28px 32px; }
+  .flagship-gallery { grid-template-columns: 1fr; }
+  .flagship-gallery .gallery-hero { max-height: 240px; }
+  .flagship-gallery .gallery-item { max-height: 180px; border-right: none !important; }
   .exp-item { grid-template-columns: 1fr; gap: 8px; }
   .hero-cta { flex-direction: column; }
   .btn { width: 100%; justify-content: center; }
@@ -483,6 +587,7 @@ footer {
 @media (max-width: 480px) {
   nav ul { display: none; }
   .projects-grid { grid-template-columns: 1fr; }
+  .flagship-gallery .gallery-item { display: none; }
 }
 </style>
 </head>
@@ -509,7 +614,7 @@ footer {
       <h1>
         Diego Santander<br>
         <span class="accent">XR</span> Developer &amp; <span class="accent2">Unity</span> Engineer
-        </h1>
+      </h1>
       <p class="hero-sub">
         I build <strong>immersive training simulators</strong> and interactive XR experiences deployed on <strong>Meta Quest</strong>. IEEE-published researcher with <strong>5+ years</strong> shipping production Unity/C# applications.
       </p>
@@ -548,50 +653,74 @@ footer {
 
     <!-- PodaVR Flagship -->
     <div class="flagship">
-      <div class="flagship-badge">★ IEEE Published · 2025</div>
-      <h3>PodaVR — VR Training System for Cherry Tree Pruning</h3>
-      <p>
-        End-to-end VR training simulator combining procedural L-System tree generation, real-time interaction tracking, and performance analytics. Deployed on Meta Quest and validated with real end-users in agricultural field conditions. Published at IEEE conference proceedings.
-      </p>
-      <div class="tech-tags">
-        <span class="tech-tag">Unity</span>
-        <span class="tech-tag">C#</span>
-        <span class="tech-tag">OpenXR</span>
-        <span class="tech-tag">Meta Quest</span>
-        <span class="tech-tag">L-Systems</span>
-        <span class="tech-tag">Procedural Generation</span>
-        <span class="tech-tag">VR Training</span>
+      <div class="flagship-gallery">
+        <div class="gallery-hero">
+          <img src="img/Overview_PODARV.png" alt="PodaVR — Panoramic view of the VR pruning environment with procedurally generated cherry trees" loading="lazy">
+          <div class="gallery-caption">VR environment · Procedurally generated cherry trees · Meta Quest</div>
+        </div>
+        <div class="gallery-item">
+          <img src="img/Level1Tree.png" alt="PodaVR — Level 1 procedural tree generated with L-Systems" loading="lazy">
+          <div class="gallery-caption">Level 1 · L-System tree generation</div>
+        </div>
+        <div class="gallery-item">
+          <img src="img/SetuopComplete.png" alt="PodaVR — VR pruning interaction with virtual shears on Meta Quest" loading="lazy">
+          <div class="gallery-caption">Interactive pruning · Virtual shears</div>
+        </div>
       </div>
-      <a href="https://ieeexplore.ieee.org/document/11420562" target="_blank" class="flagship-link">Read the full paper on IEEE Xplore </a>
+      <div class="flagship-body">
+        <div class="flagship-badge">★ IEEE Published · 2025</div>
+        <h3>PodaVR — VR Training System for Cherry Tree Pruning</h3>
+        <p>
+          End-to-end VR training simulator combining procedural L-System tree generation, real-time interaction tracking, and performance analytics. Deployed on Meta Quest and validated with real end-users in agricultural field conditions. Published at IEEE conference proceedings.
+        </p>
+        <div class="tech-tags">
+          <span class="tech-tag">Unity</span>
+          <span class="tech-tag">C#</span>
+          <span class="tech-tag">OpenXR</span>
+          <span class="tech-tag">Meta Quest</span>
+          <span class="tech-tag">L-Systems</span>
+          <span class="tech-tag">Procedural Generation</span>
+          <span class="tech-tag">VR Training</span>
+        </div>
+        <a href="https://ieeexplore.ieee.org/document/11420562" target="_blank" class="flagship-link">Read the full paper on IEEE Xplore </a>
+      </div>
     </div>
 
     <!-- VR Checklist + XR Perf Lab -->
     <div class="projects-grid" style="margin-bottom: 20px;">
       <div class="project-card">
-        <div class="type-badge type-xr">XR Asset</div>
-        <h4>VR Task & Checklist Manager</h4>
-        <p>Sequential task system for VR training simulators. Step validation, real-time feedback, scoring, JSON/REST export. Built for Unity Asset Store — currently under review.</p>
-        <div class="tech-tags" style="margin-bottom: 16px;">
-          <span class="tech-tag">Unity</span>
-          <span class="tech-tag">C#</span>
-          <span class="tech-tag">REST API</span>
-          <span class="tech-tag">SOLID</span>
-          <span class="tech-tag">Meta Quest</span>
+        <!-- REPLACE: swap card-img-placeholder div with card-img div + your image -->
+        <div class="card-img"><img src="img/vr-checklist.png" alt="VR Task & Checklist Manager"></div>
+        <div class="card-body">
+          <div class="type-badge type-xr">XR Asset</div>
+          <h4>VR Task & Checklist Manager</h4>
+          <p>Sequential task system for VR training simulators. Step validation, real-time feedback, scoring, JSON/REST export. Built for Unity Asset Store — currently under review.</p>
+          <div class="tech-tags" style="margin-bottom: 16px;">
+            <span class="tech-tag">Unity</span>
+            <span class="tech-tag">C#</span>
+            <span class="tech-tag">REST API</span>
+            <span class="tech-tag">SOLID</span>
+            <span class="tech-tag">Meta Quest</span>
+          </div>
         </div>
       </div>
 
       <div class="project-card">
-        <div class="type-badge type-xr">XR Research</div>
-        <h4>XR Performance Lab</h4>
-        <p>Modular Unity lab for studying rendering pipelines, profiling workflows, and performance optimization on PCVR and standalone Meta Quest devices.</p>
-        <div class="tech-tags" style="margin-bottom: 16px;">
-          <span class="tech-tag">Unity</span>
-          <span class="tech-tag">URP/BiRP</span>
-          <span class="tech-tag">Profiling</span>
-          <span class="tech-tag">Meta Quest</span>
-        </div>
-        <div class="project-links">
-          <a href="https://github.com/vdkaaa/xr-performance-lab" target="_blank">GitHub</a>
+        <!-- REPLACE: swap card-img-placeholder div with card-img div + your image/gif -->
+        <div class="card-img"><img src="img/xr-perf-lab.gif" alt="XR Performance Lab"></div>
+        <div class="card-body">
+          <div class="type-badge type-xr">XR Research</div>
+          <h4>XR Performance Lab</h4>
+          <p>Modular Unity lab for studying rendering pipelines, profiling workflows, and performance optimization on PCVR and standalone Meta Quest devices.</p>
+          <div class="tech-tags" style="margin-bottom: 16px;">
+            <span class="tech-tag">Unity</span>
+            <span class="tech-tag">URP/BiRP</span>
+            <span class="tech-tag">Profiling</span>
+            <span class="tech-tag">Meta Quest</span>
+          </div>
+          <div class="project-links">
+            <a href="https://github.com/vdkaaa/xr-performance-lab" target="_blank">GitHub</a>
+          </div>
         </div>
       </div>
     </div>
@@ -599,59 +728,78 @@ footer {
     <!-- Game Projects -->
     <div class="projects-grid">
       <div class="project-card">
-        <div class="type-badge type-game">Game · Unity</div>
-        <h4>32 — La Catástrofe de la Mina San José</h4>
-        <p>Survival horror top-down inspired by the 33 Chilean miners. Lead programmer — mechanics, optimization, and full game cohesion.</p>
-        <div class="project-links">
-          <a href="https://youtu.be/d1n8gegmpho" target="_blank">Gameplay</a>
-          <a href="https://sluchii.itch.io/32" target="_blank">Play</a>
+        <div class="card-img"><img src="img/32-game.png" alt="32"></div> 
+        <div class="card-body">
+          <div class="type-badge type-game">Game · Unity</div>
+          <h4>32 — La Catástrofe de la Mina San José</h4>
+          <p>Survival horror top-down inspired by the 33 Chilean miners. Lead programmer — mechanics, optimization, and full game cohesion.</p>
+          <div class="project-links">
+            <a href="https://youtu.be/d1n8gegmpho" target="_blank">Gameplay</a>
+            <a href="https://sluchii.itch.io/32" target="_blank">Play</a>
+          </div>
         </div>
       </div>
 
       <div class="project-card">
-        <div class="type-badge type-game">Game · Unity</div>
-        <h4>Radioactive Leak: Against Exodus</h4>
-        <p>FPS with defined core mechanics. Team lead responsible for programming in a post-apocalyptic radiation scenario.</p>
-        <div class="project-links">
-          <a href="https://mayxhi-kueeng.itch.io/radioactive-leak-against-exodus" target="_blank">Play</a>
+        <!-- REPLACE: <div class="card-img"><img src="img/radioactive-leak.png" alt="Radioactive Leak"></div> -->
+        <div class="card-img"><img src="img/radioactive-leak.png" alt="Radioactive Leak"></div>
+        <div class="card-body">
+          <div class="type-badge type-game">Game · Unity</div>
+          <h4>Radioactive Leak: Against Exodus</h4>
+          <p>FPS with defined core mechanics. Team lead responsible for programming in a post-apocalyptic radiation scenario.</p>
+          <div class="project-links">
+            <a href="https://mayxhi-kueeng.itch.io/radioactive-leak-against-exodus" target="_blank">Play</a>
+          </div>
         </div>
       </div>
 
       <div class="project-card">
-        <div class="type-badge type-game">Game · Unity</div>
-        <h4>Campus of the Dead</h4>
-        <p>Tower defense 2D set during a viral outbreak at Universidad de Talca. Strategic turret placement and wave mechanics.</p>
-        <div class="project-links">
-          <a href="https://youtu.be/3jjbvkevu50" target="_blank">Gameplay</a>
-          <a href="https://sluchii.itch.io/campus-ofdead" target="_blank">Play</a>
+        <div class="card-img"><img src="img/campus-dead.png" alt="Campus of the Dead"></div> 
+        <div class="card-body">
+          <div class="type-badge type-game">Game · Unity</div>
+          <h4>Campus of the Dead</h4>
+          <p>Tower defense 2D set during a viral outbreak at Universidad de Talca. Strategic turret placement and wave mechanics.</p>
+          <div class="project-links">
+            <a href="https://youtu.be/3jjbvkevu50" target="_blank">Gameplay</a>
+            <a href="https://sluchii.itch.io/campus-ofdead" target="_blank">Play</a>
+          </div>
         </div>
       </div>
 
       <div class="project-card">
-        <div class="type-badge type-game">Game · Unity</div>
-        <h4>Night Vibes</h4>
-        <p>Personal twin-stick shooter project. Built from scratch — action and magic in a top-down world.</p>
-        <div class="project-links">
-          <a href="https://youtu.be/aucrfy9bb5c" target="_blank">Gameplay</a>
-          <a href="https://sluchii.itch.io/night-vibes" target="_blank">Play</a>
+        <div class="card-img"><img src="img/night-vibes.png" alt="Night Vibes"></div> -->
+        <div class="card-body">
+          <div class="type-badge type-game">Game · Unity</div>
+          <h4>Night Vibes</h4>
+          <p>Personal twin-stick shooter project. Built from scratch — action and magic in a top-down world.</p>
+          <div class="project-links">
+            <a href="https://youtu.be/aucrfy9bb5c" target="_blank">Gameplay</a>
+            <a href="https://sluchii.itch.io/night-vibes" target="_blank">Play</a>
+          </div>
         </div>
       </div>
 
       <div class="project-card">
-        <div class="type-badge type-game">Game · GameMaker</div>
-        <h4>Aline</h4>
-        <p>Survival horror — 12-year-old girl trapped in her house. Lead programmer for interactive mechanics and optimization.</p>
-        <div class="project-links">
-          <a href="https://sluchii.itch.io/alinever1" target="_blank">Play</a>
+        <div class="card-img"><img src="img/Aline.png" alt="Aline"></div> 
+        <div class="card-body">
+          <div class="type-badge type-game">Game · GameMaker</div>
+          <h4>Aline</h4>
+          <p>Survival horror — 12-year-old girl trapped in her house. Lead programmer for interactive mechanics and optimization.</p>
+          <div class="project-links">
+            <a href="https://sluchii.itch.io/alinever1" target="_blank">Play</a>
+          </div>
         </div>
       </div>
 
       <div class="project-card">
-        <div class="type-badge type-game">Game · Unity</div>
-        <h4>Farmeando Ando</h4>
-        <p>Farming simulator — plant, harvest, trade with NPCs. Core mechanics and resource management systems.</p>
-        <div class="project-links">
-          <a href="https://sluchii.itch.io/farmeando-ando" target="_blank">Play</a>
+        <div class="card-img"><img src="img/farmeando.png" alt="Farmeando Ando"></div> -->
+        <div class="card-body">
+          <div class="type-badge type-game">Game · Unity</div>
+          <h4>Farmeando Ando</h4>
+          <p>Farming simulator — plant, harvest, trade with NPCs. Core mechanics and resource management systems.</p>
+          <div class="project-links">
+            <a href="https://sluchii.itch.io/farmeando-ando" target="_blank">Play</a>
+          </div>
         </div>
       </div>
     </div>
@@ -751,7 +899,7 @@ footer {
         <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
         diegosantander43@gmail.com
       </a>
-      <a href="https://linkedin.com/in/diegosantander" target="_blank" class="contact-link">
+      <a href="https://www.linkedin.com/in/diego-santander-sep%C3%BAlveda-748423341/" target="_blank" class="contact-link">
         <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M20.5 2h-17A1.5 1.5 0 002 3.5v17A1.5 1.5 0 003.5 22h17a1.5 1.5 0 001.5-1.5v-17A1.5 1.5 0 0020.5 2zM8 19H5v-9h3zM6.5 8.25A1.75 1.75 0 118.3 6.5a1.78 1.78 0 01-1.8 1.75zM19 19h-3v-4.74c0-1.42-.6-1.93-1.38-1.93A1.74 1.74 0 0013 14.19V19h-3v-9h2.9v1.3a3.11 3.11 0 012.7-1.4c1.55 0 3.36.86 3.36 3.66z"/></svg>
         LinkedIn
       </a>
