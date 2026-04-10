@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Diego Santander — XR Developer · Unity/C# · IEEE Published</title>
+<meta name="description" content="AR/VR programmer specializing in immersive training simulators, Unity/C#, Meta Quest deployment. IEEE published researcher.">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">>
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #0d1222;
+  --bg-card: #0f1117;
+  --bg-card-hover: #151820;
+  --surface: #1a1d27;
+  --border: #22262f;
+  --border-accent: #2f3545;
+  --text: #f8f8fae3;
+  --text-dim: #92949b;
+  --text-muted: #6f7179;
+  --accent: #00e5a0;
+  --accent-dim: #00e5a020;
+  --accent-glow: #00e5a040;
+  --accent2: #6c5ce7;
+  --accent2-dim: #6c5ce720;
+  --red: #ff6b6b;
+  --font-display: 'Space Grotesk', sans-serif;
+  --font-body: 'DM Sans', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* ── Grain overlay ── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* ── Utility ── */
+.container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+a { color: var(--accent); text-decoration: none; transition: opacity 0.2s; }
+a:hover { opacity: 0.8; }
+
+/* ── Nav ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  padding: 16px 0;
+  background: #08090dcc;
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+}
+nav .container { display: flex; justify-content: space-between; align-items: center; }
+nav .logo {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 18px;
+  letter-spacing: -0.5px;
+}
+nav .logo span { color: var(--accent); }
+nav ul { display: flex; gap: 28px; list-style: none; }
+nav ul a {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  transition: color 0.3s;
+}
+nav ul a:hover { color: var(--accent); opacity: 1; }
+
+/* ── Hero ── */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding-top: 80px;
+  position: relative;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -20%;
+  right: -10%;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: -10%;
+  left: -15%;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, var(--accent2-dim) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.hero-content { position: relative; z-index: 1; }
+
+.hero-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 16px;
+  border: 1px solid var(--accent);
+  border-radius: 100px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--accent);
+  margin-bottom: 32px;
+  animation: fadeUp 0.8s ease both;
+}
+.hero-tag::before {
+  content: '';
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+.hero h1 {
+  font-family: var(--font-display);
+  font-size: clamp(48px, 7.8vw, 92px);
+  font-weight: 800;
+  line-height: 1.02;
+  letter-spacing: -2.5px;
+  max-width: 1100px;
+  margin-bottom: 24px;
+  animation: fadeUp 0.8s 0.1s ease both;
+}
+.hero h1 .accent { color: var(--accent); }
+.hero h1 .accent2 { color: var(--accent2); }
+
+.hero-sub {
+  font-size: 18px;
+  color: var(--text-dim);
+  max-width: 560px;
+  line-height: 1.7;
+  margin-bottom: 40px;
+  animation: fadeUp 0.8s 0.2s ease both;
+}
+.hero-sub strong { color: var(--text); font-weight: 500; }
+
+.hero-stats {
+  display: flex;
+  gap: 40px;
+  flex-wrap: wrap;
+  animation: fadeUp 0.8s 0.3s ease both;
+}
+.hero-stat { text-align: left; }
+.hero-stat .num {
+  font-family: var(--font-display);
+  font-size: 32px;
+  font-weight: 800;
+  color: var(--accent);
+}
+.hero-stat .label {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.hero-cta {
+  display: flex;
+  gap: 16px;
+  margin-top: 40px;
+  animation: fadeUp 0.8s 0.35s ease both;
+  flex-wrap: wrap;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 28px;
+  border-radius: 8px;
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 14px;
+  transition: all 0.3s;
+  cursor: pointer;
+  border: none;
+}
+.btn-primary {
+  background: var(--accent);
+  color: var(--bg);
+}
+.btn-primary:hover { background: #00ffb3; opacity: 1; transform: translateY(-2px); box-shadow: 0 8px 30px var(--accent-glow); }
+.btn-secondary {
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--border-accent);
+}
+.btn-secondary:hover { border-color: var(--accent); color: var(--accent); opacity: 1; }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Section ── */
+section { padding: 100px 0; }
+
+.section-label {
+  font-family: var(--font-mono);
+  font-size: 15px;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: var(--accent);
+  margin-bottom: 12px;
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(28px, 4vw, 42px);
+  font-weight: 700;
+  letter-spacing: -1px;
+  margin-bottom: 48px;
+}
+
+/* ── Flagship Card (PodaVR) ── */
+.flagship {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 48px;
+  margin-bottom: 32px;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.4s;
+}
+.flagship:hover { border-color: var(--accent); }
+
+.flagship::before {
+  content: '';
+  position: absolute;
+  top: 0; right: 0;
+  width: 300px; height: 300px;
+  background: radial-gradient(circle, var(--accent-dim) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.flagship-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  background: var(--accent-dim);
+  border: 1px solid var(--accent);
+  border-radius: 6px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--accent);
+  margin-bottom: 20px;
+}
+
+.flagship h3 {
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+.flagship p {
+  color: var(--text-dim);
+  max-width: 640px;
+  line-height: 1.7;
+  margin-bottom: 24px;
+}
+
+.tech-tags {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+.tech-tag {
+  padding: 4px 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-family: var(--font-mono);
+  font-size: 14px;
+  color: var(--text-dim);
+}
+
+.flagship-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 500;
+  font-size: 20px;
+}
+.flagship-link::after { content: '→'; transition: transform 0.2s; }
+.flagship-link:hover::after { transform: translateX(4px); }
+
+/* ── Project grid ── */
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 20px;
+}
+
+.project-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 32px;
+  transition: all 0.3s;
+  position: relative;
+}
+.project-card:hover {
+  border-color: var(--border-accent);
+  background: var(--bg-card-hover);
+  transform: translateY(-4px);
+}
+
+.project-card .type-badge {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 16px;
+}
+.type-xr { color: var(--accent); }
+.type-game { color: var(--accent2); }
+.type-web { color: #ffd93d; }
+
+.project-card h4 {
+  font-family: var(--font-display);
+  font-size: 30px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.project-card p {
+  font-size: 14px;
+  color: var(--text-dim);
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.project-links { display: flex; gap: 12px; flex-wrap: wrap; }
+.project-links a {
+  font-size: 15px;
+  font-family: var(--font-mono);
+  padding: 4px 10px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--text-dim);
+  transition: all 0.2s;
+}
+.project-links a:hover { border-color: var(--accent); color: var(--accent); opacity: 1; }
+
+/* ── Experience ── */
+.exp-timeline { display: flex; flex-direction: column; gap: 24px; }
+.exp-item {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  gap: 32px;
+  padding: 28px 32px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  transition: border-color 0.3s;
+}
+.exp-item:hover { border-color: var(--border-accent); }
+.exp-date {
+  font-family: var(--font-mono);
+  font-size: 20px;
+  color: var(--text-muted);
+  padding-top: 4px;
+}
+.exp-info h4 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 30px;
+  margin-bottom: 2px;
+}
+.exp-info .company { color: var(--accent); font-size: 20px; margin-bottom: 8px; }
+.exp-info p { font-size: 14px; color: var(--text-dim); line-height: 1.6; }
+
+/* ── Tech Stack ── */
+.stack-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 16px;
+}
+.stack-card {
+  padding: 24px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+.stack-card h4 {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--accent);
+  margin-bottom: 12px;
+}
+.stack-card p {
+  font-size: 14px;
+  color: var(--text-dim);
+  line-height: 1.7;
+}
+
+/* ── Contact ── */
+.contact-section {
+  text-align: center;
+  padding: 80px 0 120px;
+}
+.contact-section .section-title { margin-bottom: 16px; }
+.contact-section p { color: var(--text-dim); margin-bottom: 36px; max-width: 480px; margin-left: auto; margin-right: auto; }
+
+.contact-links {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.contact-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text-dim);
+  font-size: 14px;
+  transition: all 0.3s;
+}
+.contact-link:hover { border-color: var(--accent); color: var(--accent); opacity: 1; transform: translateY(-2px); }
+
+/* ── Footer ── */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 24px 0;
+  text-align: center;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  nav ul { gap: 16px; }
+  nav ul a { font-size: 11px; letter-spacing: 1px; }
+  .hero { padding-top: 100px; min-height: auto; padding-bottom: 60px; }
+  .hero-stats { gap: 24px; }
+  .flagship { padding: 28px; }
+  .exp-item { grid-template-columns: 1fr; gap: 8px; }
+  .hero-cta { flex-direction: column; }
+  .btn { width: 100%; justify-content: center; }
+}
+
+@media (max-width: 480px) {
+  nav ul { display: none; }
+  .projects-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- Nav -->
+<nav>
+  <div class="container">
+    <div class="logo">DS<span>.</span></div>
+    <ul>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#stack">Stack</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-content">
+      <div class="hero-tag">Available for XR opportunities · 100% Remote</div>
+      <h1>
+        Diego Santander<br>
+        <span class="accent">XR</span> Developer &amp; <span class="accent2">Unity</span> Engineer
+        </h1>
+      <p class="hero-sub">
+        I build <strong>immersive training simulators</strong> and interactive XR experiences deployed on <strong>Meta Quest</strong>. IEEE-published researcher with <strong>5+ years</strong> shipping production Unity/C# applications.
+      </p>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="num">5+</div>
+          <div class="label">Years Unity/C#</div>
+        </div>
+        <div class="hero-stat">
+          <div class="num">3</div>
+          <div class="label">Companies shipped</div>
+        </div>
+        <div class="hero-stat">
+          <div class="num">1</div>
+          <div class="label">IEEE Publication</div>
+        </div>
+        <div class="hero-stat">
+          <div class="num">6+</div>
+          <div class="label">Shipped Projects</div>
+        </div>
+      </div>
+      <div class="hero-cta">
+        <a href="https://ieeexplore.ieee.org/document/11420562" target="_blank" class="btn btn-primary">Read IEEE Paper</a>
+        <a href="https://github.com/vdkaaa" target="_blank" class="btn btn-secondary">GitHub →</a>
+        <a href="https://linkedin.com/in/diegosantander" target="_blank" class="btn btn-secondary">LinkedIn →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Projects -->
+<section id="projects">
+  <div class="container">
+    <div class="section-label">// Featured work</div>
+    <h2 class="section-title">Projects</h2>
+
+    <!-- PodaVR Flagship -->
+    <div class="flagship">
+      <div class="flagship-badge">★ IEEE Published · 2025</div>
+      <h3>PodaVR — VR Training System for Cherry Tree Pruning</h3>
+      <p>
+        End-to-end VR training simulator combining procedural L-System tree generation, real-time interaction tracking, and performance analytics. Deployed on Meta Quest and validated with real end-users in agricultural field conditions. Published at IEEE conference proceedings.
+      </p>
+      <div class="tech-tags">
+        <span class="tech-tag">Unity</span>
+        <span class="tech-tag">C#</span>
+        <span class="tech-tag">OpenXR</span>
+        <span class="tech-tag">Meta Quest</span>
+        <span class="tech-tag">L-Systems</span>
+        <span class="tech-tag">Procedural Generation</span>
+        <span class="tech-tag">VR Training</span>
+      </div>
+      <a href="https://ieeexplore.ieee.org/document/11420562" target="_blank" class="flagship-link">Read the full paper on IEEE Xplore </a>
+    </div>
+
+    <!-- VR Checklist + XR Perf Lab -->
+    <div class="projects-grid" style="margin-bottom: 20px;">
+      <div class="project-card">
+        <div class="type-badge type-xr">XR Asset</div>
+        <h4>VR Task & Checklist Manager</h4>
+        <p>Sequential task system for VR training simulators. Step validation, real-time feedback, scoring, JSON/REST export. Built for Unity Asset Store — currently under review.</p>
+        <div class="tech-tags" style="margin-bottom: 16px;">
+          <span class="tech-tag">Unity</span>
+          <span class="tech-tag">C#</span>
+          <span class="tech-tag">REST API</span>
+          <span class="tech-tag">SOLID</span>
+          <span class="tech-tag">Meta Quest</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="type-badge type-xr">XR Research</div>
+        <h4>XR Performance Lab</h4>
+        <p>Modular Unity lab for studying rendering pipelines, profiling workflows, and performance optimization on PCVR and standalone Meta Quest devices.</p>
+        <div class="tech-tags" style="margin-bottom: 16px;">
+          <span class="tech-tag">Unity</span>
+          <span class="tech-tag">URP/BiRP</span>
+          <span class="tech-tag">Profiling</span>
+          <span class="tech-tag">Meta Quest</span>
+        </div>
+        <div class="project-links">
+          <a href="https://github.com/vdkaaa/xr-performance-lab" target="_blank">GitHub</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Game Projects -->
+    <div class="projects-grid">
+      <div class="project-card">
+        <div class="type-badge type-game">Game · Unity</div>
+        <h4>32 — La Catástrofe de la Mina San José</h4>
+        <p>Survival horror top-down inspired by the 33 Chilean miners. Lead programmer — mechanics, optimization, and full game cohesion.</p>
+        <div class="project-links">
+          <a href="https://youtu.be/d1n8gegmpho" target="_blank">Gameplay</a>
+          <a href="https://sluchii.itch.io/32" target="_blank">Play</a>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="type-badge type-game">Game · Unity</div>
+        <h4>Radioactive Leak: Against Exodus</h4>
+        <p>FPS with defined core mechanics. Team lead responsible for programming in a post-apocalyptic radiation scenario.</p>
+        <div class="project-links">
+          <a href="https://mayxhi-kueeng.itch.io/radioactive-leak-against-exodus" target="_blank">Play</a>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="type-badge type-game">Game · Unity</div>
+        <h4>Campus of the Dead</h4>
+        <p>Tower defense 2D set during a viral outbreak at Universidad de Talca. Strategic turret placement and wave mechanics.</p>
+        <div class="project-links">
+          <a href="https://youtu.be/3jjbvkevu50" target="_blank">Gameplay</a>
+          <a href="https://sluchii.itch.io/campus-ofdead" target="_blank">Play</a>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="type-badge type-game">Game · Unity</div>
+        <h4>Night Vibes</h4>
+        <p>Personal twin-stick shooter project. Built from scratch — action and magic in a top-down world.</p>
+        <div class="project-links">
+          <a href="https://youtu.be/aucrfy9bb5c" target="_blank">Gameplay</a>
+          <a href="https://sluchii.itch.io/night-vibes" target="_blank">Play</a>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="type-badge type-game">Game · GameMaker</div>
+        <h4>Aline</h4>
+        <p>Survival horror — 12-year-old girl trapped in her house. Lead programmer for interactive mechanics and optimization.</p>
+        <div class="project-links">
+          <a href="https://sluchii.itch.io/alinever1" target="_blank">Play</a>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="type-badge type-game">Game · Unity</div>
+        <h4>Farmeando Ando</h4>
+        <p>Farming simulator — plant, harvest, trade with NPCs. Core mechanics and resource management systems.</p>
+        <div class="project-links">
+          <a href="https://sluchii.itch.io/farmeando-ando" target="_blank">Play</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Experience -->
+<section id="experience" style="background: var(--bg-card); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
+  <div class="container">
+    <div class="section-label">// Career</div>
+    <h2 class="section-title">Experience</h2>
+    <div class="exp-timeline">
+      <div class="exp-item">
+        <div class="exp-date">Oct 2025 → Now</div>
+        <div class="exp-info">
+          <h4>Junior Programmer</h4>
+          <div class="company">Fourdplan</div>
+          <p>Modular simulation systems with REST API integration. Refactored entire codebase to SOLID principles. Production-ready builds deployed from day one. Remote, Agile workflow.</p>
+        </div>
+      </div>
+      <div class="exp-item">
+        <div class="exp-date">2025</div>
+        <div class="exp-info">
+          <h4>Unity Developer Intern</h4>
+          <div class="company">BitPlay</div>
+          <p>Built 4 interactive educational mechanics — UI/UX, animations, and real-time behaviors — 100% adopted into the main product.</p>
+        </div>
+      </div>
+      <div class="exp-item">
+        <div class="exp-date">Jan — Mar 2024</div>
+        <div class="exp-info">
+          <h4>Game Developer Intern</h4>
+          <div class="company">Raccoon Party Games</div>
+          <p>Programmed 6 gameplay mechanics from GDD to stable build (35% of total playable code). Reduced asset integration time from 3 days to 4 hours via custom Editor scripting.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Stack -->
+<section id="stack">
+  <div class="container">
+    <div class="section-label">// Tech stack</div>
+    <h2 class="section-title">What I work with</h2>
+    <div class="stack-grid">
+      <div class="stack-card">
+        <h4>Engines</h4>
+        <p>Unity (VR/AR/2D/3D), Unreal Engine (learning)</p>
+      </div>
+      <div class="stack-card">
+        <h4>Languages</h4>
+        <p>C#, C++, JavaScript, TypeScript</p>
+      </div>
+      <div class="stack-card">
+        <h4>XR Frameworks</h4>
+        <p>OpenXR, AR Foundation, XR Interaction Toolkit, Meta Quest SDK</p>
+      </div>
+      <div class="stack-card">
+        <h4>XR Hardware</h4>
+        <p>Meta Quest 1/2/3/Pro, PC VR, Mobile AR</p>
+      </div>
+      <div class="stack-card">
+        <h4>Specialization</h4>
+        <p>VR Training Simulators, Real-time Interaction, Performance Optimization, Procedural Generation</p>
+      </div>
+      <div class="stack-card">
+        <h4>Workflow</h4>
+        <p>Git, GitHub, Agile/Scrum, Code Review, SOLID Architecture</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Education -->
+<section style="padding: 60px 0; border-top: 1px solid var(--border);">
+  <div class="container">
+    <div class="exp-item" style="max-width: 600px;">
+      <div class="exp-date">2021 — 2025</div>
+      <div class="exp-info">
+        <h4>B.Eng. — Video Game & VR Engineering</h4>
+        <div class="company">Universidad de Talca, Chile</div>
+        <p>Specialized in immersive environments, procedural generation, and real-time systems. IEEE published during undergraduate research.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Contact -->
+<section id="contact" class="contact-section">
+  <div class="container">
+    <div class="section-label">// Get in touch</div>
+    <h2 class="section-title">Let's build something immersive</h2>
+    <p>Open to XR roles, Unity contracts, and training simulation projects. Based in Chile, working 100% remote.</p>
+    <div class="contact-links">
+      <a href="mailto:diegosantander43@gmail.com" class="contact-link">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        diegosantander43@gmail.com
+      </a>
+      <a href="https://linkedin.com/in/diegosantander" target="_blank" class="contact-link">
+        <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M20.5 2h-17A1.5 1.5 0 002 3.5v17A1.5 1.5 0 003.5 22h17a1.5 1.5 0 001.5-1.5v-17A1.5 1.5 0 0020.5 2zM8 19H5v-9h3zM6.5 8.25A1.75 1.75 0 118.3 6.5a1.78 1.78 0 01-1.8 1.75zM19 19h-3v-4.74c0-1.42-.6-1.93-1.38-1.93A1.74 1.74 0 0013 14.19V19h-3v-9h2.9v1.3a3.11 3.11 0 012.7-1.4c1.55 0 3.36.86 3.36 3.66z"/></svg>
+        LinkedIn
+      </a>
+      <a href="https://github.com/vdkaaa" target="_blank" class="contact-link">
+        <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+        GitHub
+      </a>
+      <a href="tel:+56940438904" class="contact-link">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        +56 9 4043 8904
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    Diego Santander · XR Developer · Chile · 2026
+  </div>
+</footer>
+
+</body>
+</html>
