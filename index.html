@@ -40,7 +40,6 @@ body {
   overflow-x: hidden;
 }
 
-/* ── Grain overlay ── */
 body::before {
   content: '';
   position: fixed;
@@ -50,13 +49,11 @@ body::before {
   z-index: 9999;
 }
 
-/* ── Utility ── */
 .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
 
 a { color: var(--accent); text-decoration: none; transition: opacity 0.2s; }
 a:hover { opacity: 0.8; }
 
-/* ── Nav ── */
 nav {
   position: fixed; top: 0; left: 0; right: 0; z-index: 100;
   padding: 16px 0;
@@ -83,7 +80,6 @@ nav ul a {
 }
 nav ul a:hover { color: var(--accent); opacity: 1; }
 
-/* ── Hero ── */
 .hero {
   min-height: 100vh;
   display: flex;
@@ -224,7 +220,6 @@ nav ul a:hover { color: var(--accent); opacity: 1; }
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* ── Section ── */
 section { padding: 100px 0; }
 
 .section-label {
@@ -244,7 +239,6 @@ section { padding: 100px 0; }
   margin-bottom: 48px;
 }
 
-/* ── Flagship Card (PodaVR) ── */
 .flagship {
   background: var(--bg-card);
   border: 1px solid var(--border);
@@ -265,7 +259,6 @@ section { padding: 100px 0; }
   pointer-events: none;
 }
 
-/* ── Flagship image gallery ── */
 .flagship-gallery {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -330,6 +323,12 @@ section { padding: 100px 0; }
   margin-bottom: 20px;
 }
 
+.flagship-badge.live {
+  background: #ff6b6b1a;
+  border-color: var(--red);
+  color: var(--red);
+}
+
 .flagship h3 {
   font-family: var(--font-display);
   font-size: 28px;
@@ -370,7 +369,75 @@ section { padding: 100px 0; }
 .flagship-link::after { content: '→'; transition: transform 0.2s; }
 .flagship-link:hover::after { transform: translateX(4px); }
 
-/* ── Project grid ── */
+/* ── Devlog video grid ── */
+.devlog-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-top: 8px;
+}
+.devlog-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  transition: border-color 0.3s, transform 0.3s;
+}
+.devlog-card:hover { border-color: var(--accent); transform: translateY(-3px); }
+.devlog-card.featured { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent), 0 8px 30px var(--accent-glow); }
+.devlog-thumb {
+  position: relative;
+  aspect-ratio: 16/9;
+  background: #000;
+}
+.devlog-thumb iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+}
+.devlog-week {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  padding: 3px 10px;
+  background: #08090dcc;
+  border: 1px solid var(--border-accent);
+  border-radius: 100px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-dim);
+  z-index: 2;
+  pointer-events: none;
+}
+.devlog-star {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 3px 10px;
+  background: var(--accent);
+  border-radius: 100px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--bg);
+  z-index: 2;
+  pointer-events: none;
+}
+.devlog-info { padding: 16px 18px 18px; }
+.devlog-info h5 {
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  line-height: 1.35;
+}
+.devlog-info p {
+  font-size: 12.5px;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
 .projects-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -387,7 +454,6 @@ section { padding: 100px 0; }
 }
 .project-card .card-body { padding: 32px; }
 
-/* Project card image */
 .project-card .card-img {
   width: 100%;
   height: 180px;
@@ -404,7 +470,6 @@ section { padding: 100px 0; }
 }
 .project-card:hover .card-img img { transform: scale(1.05); }
 
-/* Placeholder for missing images */
 .project-card .card-img-placeholder {
   width: 100%;
   height: 180px;
@@ -478,7 +543,6 @@ section { padding: 100px 0; }
 }
 .project-links a:hover { border-color: var(--accent); color: var(--accent); opacity: 1; }
 
-/* ── Experience ── */
 .exp-timeline { display: flex; flex-direction: column; gap: 24px; }
 .exp-item {
   display: grid;
@@ -506,7 +570,6 @@ section { padding: 100px 0; }
 .exp-info .company { color: var(--accent); font-size: 20px; margin-bottom: 8px; }
 .exp-info p { font-size: 14px; color: var(--text-dim); line-height: 1.6; }
 
-/* ── Tech Stack ── */
 .stack-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
@@ -532,7 +595,6 @@ section { padding: 100px 0; }
   line-height: 1.7;
 }
 
-/* ── Contact ── */
 .contact-section {
   text-align: center;
   padding: 80px 0 120px;
@@ -560,7 +622,6 @@ section { padding: 100px 0; }
 }
 .contact-link:hover { border-color: var(--accent); color: var(--accent); opacity: 1; transform: translateY(-2px); }
 
-/* ── Footer ── */
 footer {
   border-top: 1px solid var(--border);
   padding: 24px 0;
@@ -569,7 +630,6 @@ footer {
   color: var(--text-muted);
 }
 
-/* ── Responsive ── */
 @media (max-width: 768px) {
   nav ul { gap: 16px; }
   nav ul a { font-size: 11px; letter-spacing: 1px; }
@@ -579,6 +639,7 @@ footer {
   .flagship-gallery { grid-template-columns: 1fr; }
   .flagship-gallery .gallery-hero { max-height: 240px; }
   .flagship-gallery .gallery-item { max-height: 180px; border-right: none !important; }
+  .devlog-grid { grid-template-columns: 1fr; }
   .exp-item { grid-template-columns: 1fr; gap: 8px; }
   .hero-cta { flex-direction: column; }
   .btn { width: 100%; justify-content: center; }
@@ -593,7 +654,6 @@ footer {
 </head>
 <body>
 
-<!-- Nav -->
 <nav>
   <div class="container">
     <div class="logo">DS<span>.</span></div>
@@ -606,7 +666,6 @@ footer {
   </div>
 </nav>
 
-<!-- Hero -->
 <section class="hero">
   <div class="container">
     <div class="hero-content">
@@ -645,11 +704,65 @@ footer {
   </div>
 </section>
 
-<!-- Projects -->
 <section id="projects">
   <div class="container">
     <div class="section-label">// Featured work</div>
     <h2 class="section-title">Projects</h2>
+
+    <!-- VR Industrial Training Framework — in development, devlog series -->
+    <div class="flagship">
+      <div class="flagship-body">
+        <div class="flagship-badge live">● In development · Weekly devlog</div>
+        <h3>VR Industrial Training Framework</h3>
+        <p>
+          A modular Unity framework for industrial VR training: sequenced task validation, real-time tool interaction, and scoring built to generalize across training scenarios — not a one-off simulator. Building and documenting it in public, one system at a time.
+        </p>
+        <div class="tech-tags">
+          <span class="tech-tag">Unity</span>
+          <span class="tech-tag">C#</span>
+          <span class="tech-tag">XR Interaction Toolkit</span>
+          <span class="tech-tag">Meta Quest</span>
+          <span class="tech-tag">System Architecture</span>
+          <span class="tech-tag">Industrial Training</span>
+        </div>
+
+        <div class="devlog-grid">
+          <div class="devlog-card">
+            <div class="devlog-thumb">
+              <span class="devlog-week">Week 1</span>
+              <iframe src="https://www.youtube.com/embed/iHikURdBGi0" title="Building a VR Industrial Training Framework from Scratch — Week 1 | Architecture" loading="lazy" allowfullscreen></iframe>
+            </div>
+            <div class="devlog-info">
+              <h5>Architecture — Building from Scratch</h5>
+              <p>Laying the foundation: core framework architecture and project structure.</p>
+            </div>
+          </div>
+
+          <div class="devlog-card">
+            <div class="devlog-thumb">
+              <span class="devlog-week">Week 3</span>
+              <iframe src="https://www.youtube.com/embed/3bBS7tSkMwc" title="Task Sequence Engine in VR — Week 3 | VR Industrial Training Framework" loading="lazy" allowfullscreen></iframe>
+            </div>
+            <div class="devlog-info">
+              <h5>Task Sequence Engine</h5>
+              <p>The system that drives ordered task validation and progress tracking in VR.</p>
+            </div>
+          </div>
+
+          <div class="devlog-card featured">
+            <div class="devlog-thumb">
+              <span class="devlog-week">Week 4</span>
+              <span class="devlog-star">★ Key system</span>
+              <iframe src="https://www.youtube.com/embed/VRM0nb1Rla4" title="VR Tool Interaction System — Week 4 | VR Industrial Training Framework" loading="lazy" allowfullscreen></iframe>
+            </div>
+            <div class="devlog-info">
+              <h5>Tool Interaction System</h5>
+              <p>Grabbable, physics-driven industrial tools with real-time interaction tracking.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <!-- PodaVR Flagship -->
     <div class="flagship">
@@ -689,7 +802,6 @@ footer {
     <!-- VR Checklist + XR Perf Lab -->
     <div class="projects-grid" style="margin-bottom: 20px;">
       <div class="project-card">
-        <!-- REPLACE: swap card-img-placeholder div with card-img div + your image -->
         <div class="card-img"><img src="img/vr-checklist.png" alt="VR Task & Checklist Manager"></div>
         <div class="card-body">
           <div class="type-badge type-xr">XR Asset</div>
@@ -706,7 +818,6 @@ footer {
       </div>
 
       <div class="project-card">
-        <!-- REPLACE: swap card-img-placeholder div with card-img div + your image/gif -->
         <div class="card-img"><img src="img/xr-perf-lab.gif" alt="XR Performance Lab"></div>
         <div class="card-body">
           <div class="type-badge type-xr">XR Research</div>
@@ -741,7 +852,6 @@ footer {
       </div>
 
       <div class="project-card">
-        <!-- REPLACE: <div class="card-img"><img src="img/radioactive-leak.png" alt="Radioactive Leak"></div> -->
         <div class="card-img"><img src="img/radioactive-leak.png" alt="Radioactive Leak"></div>
         <div class="card-body">
           <div class="type-badge type-game">Game · Unity</div>
@@ -767,7 +877,7 @@ footer {
       </div>
 
       <div class="project-card">
-        <div class="card-img"><img src="img/night-vibes.png" alt="Night Vibes"></div> -->
+        <div class="card-img"><img src="img/night-vibes.png" alt="Night Vibes"></div>
         <div class="card-body">
           <div class="type-badge type-game">Game · Unity</div>
           <h4>Night Vibes</h4>
@@ -792,7 +902,7 @@ footer {
       </div>
 
       <div class="project-card">
-        <div class="card-img"><img src="img/farmeando.png" alt="Farmeando Ando"></div> -->
+        <div class="card-img"><img src="img/farmeando.png" alt="Farmeando Ando"></div>
         <div class="card-body">
           <div class="type-badge type-game">Game · Unity</div>
           <h4>Farmeando Ando</h4>
@@ -806,7 +916,6 @@ footer {
   </div>
 </section>
 
-<!-- Experience -->
 <section id="experience" style="background: var(--bg-card); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
   <div class="container">
     <div class="section-label">// Career</div>
@@ -840,7 +949,6 @@ footer {
   </div>
 </section>
 
-<!-- Stack -->
 <section id="stack">
   <div class="container">
     <div class="section-label">// Tech stack</div>
@@ -874,7 +982,6 @@ footer {
   </div>
 </section>
 
-<!-- Education -->
 <section style="padding: 60px 0; border-top: 1px solid var(--border);">
   <div class="container">
     <div class="exp-item" style="max-width: 600px;">
@@ -888,7 +995,6 @@ footer {
   </div>
 </section>
 
-<!-- Contact -->
 <section id="contact" class="contact-section">
   <div class="container">
     <div class="section-label">// Get in touch</div>
