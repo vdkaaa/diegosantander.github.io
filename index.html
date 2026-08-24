@@ -250,6 +250,52 @@ section { padding: 100px 0; }
 }
 .flagship:hover { border-color: var(--accent); }
 
+.flagship.flagship-spotlight {
+  border-color: var(--accent2);
+  box-shadow: 0 0 0 1px #6c5ce766, 0 16px 48px #6c5ce722;
+  margin-bottom: 32px;
+}
+.flagship.flagship-spotlight::before {
+  background: radial-gradient(circle, #6c5ce728 0%, transparent 70%);
+}
+.flagship.flagship-spotlight:hover { border-color: var(--accent2); }
+.flagship-spotlight .flagship-badge {
+  background: var(--accent2-dim);
+  border-color: var(--accent2);
+  color: var(--accent2);
+}
+.flagship-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.flagship-actions .btn-sm {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  padding: 8px 16px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  color: var(--text-dim);
+  transition: all 0.2s;
+}
+.flagship-actions .btn-sm:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  opacity: 1;
+}
+.flagship-actions .btn-sm-primary {
+  background: var(--accent2);
+  border-color: var(--accent2);
+  color: #fff;
+  font-weight: 600;
+}
+.flagship-actions .btn-sm-primary:hover {
+  background: #7d6ff0;
+  border-color: #7d6ff0;
+  color: #fff;
+}
+
 .flagship::before {
   content: '';
   position: absolute;
@@ -696,7 +742,8 @@ footer {
         </div>
       </div>
       <div class="hero-cta">
-        <a href="https://ieeexplore.ieee.org/document/11420562" target="_blank" class="btn btn-primary">Read IEEE Paper</a>
+        <a href="https://xr-workspace.vercel.app" target="_blank" class="btn btn-primary">XR Rooms — Live Demo</a>
+        <a href="https://ieeexplore.ieee.org/document/11420562" target="_blank" class="btn btn-secondary">Read IEEE Paper</a>
         <a href="https://github.com/vdkaaa" target="_blank" class="btn btn-secondary">GitHub →</a>
         <a href="https://www.linkedin.com/in/diego-santander-xr/" target="_blank" class="btn btn-secondary">LinkedIn →</a>
       </div>
@@ -708,6 +755,49 @@ footer {
   <div class="container">
     <div class="section-label">// Featured work</div>
     <h2 class="section-title">Projects</h2>
+
+    <!-- XR Rooms Meet — flagship production app -->
+    <div class="flagship flagship-spotlight">
+      <div class="flagship-gallery">
+        <div class="gallery-hero">
+          <img src="img/xr-rooms-desktop.jpg" alt="XR Rooms Meet — first-person view of the shared 3D office on desktop" loading="lazy">
+          <div class="gallery-caption">Desktop · Unity WebGL embedded in React · Shared 3D office</div>
+        </div>
+        <div class="gallery-item">
+          <img src="img/xr-rooms-avatars.jpg" alt="XR Rooms Meet — multi-user avatars with name tags, voice, and AI summary panel" loading="lazy">
+          <div class="gallery-caption">Multi-user · Avatars · Spatial voice · AI recap</div>
+        </div>
+        <div class="gallery-item">
+          <img src="img/xr-rooms-vr.jpg" alt="XR Rooms Meet — immersive WebXR session on Meta Quest" loading="lazy">
+          <div class="gallery-caption">Meta Quest · WebXR · Same URL, no store build</div>
+        </div>
+      </div>
+      <div class="flagship-body">
+        <div class="flagship-badge">★ Live · Production deployed</div>
+        <h3>XR Rooms Meet — Collaborative 3D Workspace in the Browser</h3>
+        <p>
+          Full-stack collaborative workspace: join from a laptop or Meta Quest with one link — no installs, no APK sideloading.
+          Unity WebGL drives the 3D scene and XR rig; React owns auth, rooms, whiteboard, and panels. Multi-user avatars over WebSocket,
+          spatial voice via LiveKit, CRDT whiteboard with Liveblocks, and AI session summaries streamed from Claude.
+          Custom WebXR bridge for Quest browser deployment.
+        </p>
+        <div class="tech-tags">
+          <span class="tech-tag">Unity 6</span>
+          <span class="tech-tag">WebGL</span>
+          <span class="tech-tag">WebXR</span>
+          <span class="tech-tag">React</span>
+          <span class="tech-tag">TypeScript</span>
+          <span class="tech-tag">Node.js</span>
+          <span class="tech-tag">Meta Quest</span>
+          <span class="tech-tag">LiveKit</span>
+          <span class="tech-tag">Liveblocks</span>
+        </div>
+        <div class="flagship-actions">
+          <a href="https://xr-workspace.vercel.app" target="_blank" class="btn-sm btn-sm-primary">Open live demo</a>
+          <a href="https://github.com/vdkaaa/xr-workspace" target="_blank" class="btn-sm">View source on GitHub</a>
+        </div>
+      </div>
+    </div>
 
     <!-- VR Industrial Training Framework — in development, devlog series -->
     <div class="flagship">
@@ -799,24 +889,8 @@ footer {
       </div>
     </div>
 
-    <!-- VR Checklist + XR Perf Lab -->
+    <!-- XR Performance Lab -->
     <div class="projects-grid" style="margin-bottom: 20px;">
-      <div class="project-card">
-        <div class="card-img"><img src="img/vr-checklist.png" alt="VR Task & Checklist Manager"></div>
-        <div class="card-body">
-          <div class="type-badge type-xr">XR Asset</div>
-          <h4>VR Task & Checklist Manager</h4>
-          <p>Sequential task system for VR training simulators. Step validation, real-time feedback, scoring, JSON/REST export. Built for Unity Asset Store — currently under review.</p>
-          <div class="tech-tags" style="margin-bottom: 16px;">
-            <span class="tech-tag">Unity</span>
-            <span class="tech-tag">C#</span>
-            <span class="tech-tag">REST API</span>
-            <span class="tech-tag">SOLID</span>
-            <span class="tech-tag">Meta Quest</span>
-          </div>
-        </div>
-      </div>
-
       <div class="project-card">
         <div class="card-img"><img src="img/xr-perf-lab.gif" alt="XR Performance Lab"></div>
         <div class="card-body">
@@ -831,6 +905,22 @@ footer {
           </div>
           <div class="project-links">
             <a href="https://github.com/vdkaaa/xr-performance-lab" target="_blank">GitHub</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="card-img"><img src="img/vr-checklist.png" alt="VR Task & Checklist Manager"></div>
+        <div class="card-body">
+          <div class="type-badge type-xr">XR Asset</div>
+          <h4>VR Task & Checklist Manager</h4>
+          <p>Sequential task system for VR training simulators. Step validation, scoring, JSON/REST export. Unity Asset Store — under review.</p>
+          <div class="tech-tags" style="margin-bottom: 16px;">
+            <span class="tech-tag">Unity</span>
+            <span class="tech-tag">C#</span>
+            <span class="tech-tag">REST API</span>
+            <span class="tech-tag">SOLID</span>
+            <span class="tech-tag">Meta Quest</span>
           </div>
         </div>
       </div>
