@@ -616,29 +616,94 @@ section { padding: 100px 0; }
 .exp-info .company { color: var(--accent); font-size: 20px; margin-bottom: 8px; }
 .exp-info p { font-size: 14px; color: var(--text-dim); line-height: 1.6; }
 
-.stack-grid {
+.stack-logos {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  gap: 16px;
+  grid-template-columns: repeat(auto-fill, minmax(112px, 1fr));
+  gap: 12px;
+  margin-bottom: 40px;
 }
-.stack-card {
-  padding: 24px;
-  background: var(--bg-card);
+.stack-logo {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 20px 12px 16px;
+  background: transparent;
   border: 1px solid var(--border);
   border-radius: 10px;
+  transition: border-color 0.3s, background 0.3s, transform 0.3s;
 }
-.stack-card h4 {
+.stack-logo:hover {
+  border-color: var(--border-accent);
+  background: var(--bg-card);
+  transform: translateY(-2px);
+}
+.stack-logo img,
+.stack-logo svg {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  opacity: 0.72;
+  transition: opacity 0.3s;
+}
+.stack-logo:hover img,
+.stack-logo:hover svg { opacity: 1; }
+.stack-logo span {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-dim);
+  text-align: center;
+  letter-spacing: 0.3px;
+  line-height: 1.3;
+}
+.stack-logo:hover span { color: var(--text); }
+.stack-badge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  font-family: var(--font-mono) !important;
+  font-size: 9px !important;
+  letter-spacing: 0.8px !important;
+  text-transform: uppercase;
+  color: var(--accent2) !important;
+  opacity: 0.9;
+}
+.stack-focus {
+  border-top: 1px solid var(--border);
+  padding-top: 28px;
+}
+.stack-focus-label {
   font-family: var(--font-mono);
   font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 2px;
   color: var(--accent);
-  margin-bottom: 12px;
+  margin-bottom: 16px;
 }
-.stack-card p {
-  font-size: 14px;
+.stack-focus-list {
+  list-style: none;
+  display: grid;
+  gap: 12px;
+}
+.stack-focus-list li {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  font-size: 15px;
   color: var(--text-dim);
-  line-height: 1.7;
+  line-height: 1.55;
+}
+.stack-focus-list li::before {
+  content: '▹';
+  color: var(--accent);
+  font-family: var(--font-mono);
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.stack-focus-list strong {
+  color: var(--text);
+  font-weight: 500;
 }
 
 .contact-section {
@@ -689,6 +754,7 @@ footer {
   .exp-item { grid-template-columns: 1fr; gap: 8px; }
   .hero-cta { flex-direction: column; }
   .btn { width: 100%; justify-content: center; }
+  .stack-logos { grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 10px; }
 }
 
 @media (max-width: 480px) {
@@ -1043,31 +1109,59 @@ footer {
   <div class="container">
     <div class="section-label">// Tech stack</div>
     <h2 class="section-title">What I work with</h2>
-    <div class="stack-grid">
-      <div class="stack-card">
-        <h4>Engines</h4>
-        <p>Unity (VR/AR/2D/3D), Unreal Engine (learning)</p>
+    <div class="stack-logos">
+      <div class="stack-logo">
+        <img src="https://cdn.simpleicons.org/unity/f8f8fa" alt="" width="32" height="32" loading="lazy">
+        <span>Unity</span>
       </div>
-      <div class="stack-card">
-        <h4>Languages</h4>
-        <p>C#, C++, JavaScript, TypeScript</p>
+      <div class="stack-logo">
+        <img src="https://cdn.simpleicons.org/unrealengine/f8f8fa" alt="" width="32" height="32" loading="lazy">
+        <span>Unreal</span>
+        <span class="stack-badge">Exploring</span>
       </div>
-      <div class="stack-card">
-        <h4>XR Frameworks</h4>
-        <p>OpenXR, AR Foundation, XR Interaction Toolkit, Meta Quest SDK</p>
+      <div class="stack-logo">
+        <img src="https://cdn.simpleicons.org/csharp/f8f8fa" alt="" width="32" height="32" loading="lazy">
+        <span>C#</span>
       </div>
-      <div class="stack-card">
-        <h4>XR Hardware</h4>
-        <p>Meta Quest 1/2/3/Pro, PC VR, Mobile AR</p>
+      <div class="stack-logo">
+        <img src="https://cdn.simpleicons.org/cplusplus/f8f8fa" alt="" width="32" height="32" loading="lazy">
+        <span>C++</span>
       </div>
-      <div class="stack-card">
-        <h4>Specialization</h4>
-        <p>VR Training Simulators, Real-time Interaction, Performance Optimization, Procedural Generation</p>
+      <div class="stack-logo">
+        <img src="https://cdn.simpleicons.org/javascript/f8f8fa" alt="" width="32" height="32" loading="lazy">
+        <span>JavaScript</span>
       </div>
-      <div class="stack-card">
-        <h4>Workflow</h4>
-        <p>Git, GitHub, Agile/Scrum, Code Review, SOLID Architecture</p>
+      <div class="stack-logo">
+        <img src="https://cdn.simpleicons.org/typescript/f8f8fa" alt="" width="32" height="32" loading="lazy">
+        <span>TypeScript</span>
       </div>
+      <div class="stack-logo">
+        <svg viewBox="0 0 32 32" width="32" height="32" fill="none" aria-hidden="true">
+          <circle cx="11" cy="16" r="6.5" stroke="#f8f8fa" stroke-width="2"/>
+          <circle cx="21" cy="16" r="6.5" stroke="#f8f8fa" stroke-width="2"/>
+        </svg>
+        <span>OpenXR</span>
+      </div>
+      <div class="stack-logo">
+        <img src="https://cdn.simpleicons.org/meta/f8f8fa" alt="" width="32" height="32" loading="lazy">
+        <span>Meta Quest</span>
+      </div>
+      <div class="stack-logo">
+        <img src="https://cdn.simpleicons.org/git/f8f8fa" alt="" width="32" height="32" loading="lazy">
+        <span>Git</span>
+      </div>
+      <div class="stack-logo">
+        <img src="https://cdn.simpleicons.org/github/f8f8fa" alt="" width="32" height="32" loading="lazy">
+        <span>GitHub</span>
+      </div>
+    </div>
+    <div class="stack-focus">
+      <div class="stack-focus-label">How I use them</div>
+      <ul class="stack-focus-list">
+        <li><span><strong>VR training simulators</strong> — immersive industrial &amp; educational experiences on Meta Quest</span></li>
+        <li><span><strong>Real-time interaction</strong> — OpenXR, XR Interaction Toolkit, and performance-tuned Unity loops</span></li>
+        <li><span><strong>Procedural systems &amp; clean architecture</strong> — maintainable C# with SOLID practices and code review</span></li>
+      </ul>
     </div>
   </div>
 </section>
